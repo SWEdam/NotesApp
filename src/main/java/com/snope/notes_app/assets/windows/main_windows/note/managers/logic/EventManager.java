@@ -26,6 +26,7 @@ public class EventManager {
     private UndoRedoManager undoRedoManager;
     private FileManager fileManager;
     private NoteManager noteManager;
+    private ImportExportManager importExportManager;
 
     public EventManager(NoteWindow noteWindow, HomeWindow home) {
 
@@ -34,6 +35,7 @@ public class EventManager {
         this.undoRedoManager = noteWindow.getUndoRedoManager();
         this.fileManager = noteWindow.getFileManager();
         this.noteManager = home.noteManager;
+        this.importExportManager = new ImportExportManager(home);
 
     }
 
@@ -43,6 +45,7 @@ public class EventManager {
         setupContentChangeListener();
         setupUndoRedoButtonListeners();
         setupHomeButtonListener();
+        setupExportButtonListener();
 
     }
 
@@ -158,4 +161,14 @@ public class EventManager {
 
     }
 
+    private void setupExportButtonListener() {
+
+        noteWindow.exportButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                importExportManager.export(noteWindow);
+            }
+        });
+
+    }
 }

@@ -1,7 +1,10 @@
 package com.snope.notes_app.assets.windows.main_windows.home.managers.logic;
 
 import com.snope.notes_app.assets.windows.main_windows.home.HomeWindow;
+import com.snope.notes_app.assets.windows.main_windows.note.managers.logic.ImportExportManager;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -15,9 +18,13 @@ import java.io.IOException;
 public class EventManager {
 
     private HomeWindow home;
+    private SearchManager searchManager;
+    private ImportExportManager importExportManager;
 
     public EventManager(HomeWindow home) {
         this.home = home;
+        searchManager = new SearchManager(home);
+        importExportManager = new ImportExportManager(home);
     }
 
     public void setupListeners() {
@@ -25,6 +32,8 @@ public class EventManager {
         setupNewButtonListener();
         setupScrollPaneListener();
         setupSortButtonsListeners();
+        setupSearchFieldListener();
+        setupImportButtonListener();
 
     }
 
@@ -97,6 +106,40 @@ public class EventManager {
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+
+            }
+        });
+
+    }
+
+    private void setupSearchFieldListener() {
+
+        home.searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                searchManager.search();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                searchManager.search();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                searchManager.search();
+            }
+        });
+
+    }
+
+    private void setupImportButtonListener() {
+
+        home.importButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                importExportManager.selectAndImport();
 
             }
         });

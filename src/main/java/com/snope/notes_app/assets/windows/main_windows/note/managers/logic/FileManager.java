@@ -2,6 +2,7 @@ package com.snope.notes_app.assets.windows.main_windows.note.managers.logic;
 
 import com.snope.notes_app.assets.App;
 import com.snope.notes_app.assets.objects.Note;
+import com.snope.notes_app.assets.utils.FileUtils;
 import com.snope.notes_app.assets.windows.main_windows.note.NoteWindow;
 
 import javax.swing.*;
@@ -36,14 +37,26 @@ public class FileManager {
 
         note.noteFile = new File(App.PATH + "notes/" + noteButton.getTitle() + ".txt");
 
-        // Rework database
-
         if (!note.noteFile.exists()) {
             try {
                 note.noteFile.createNewFile();
             } catch (IOException e) {
                 System.out.println("Couldn't create file '" + note.noteFile.getPath() + "'");
-                return;
+            }
+        }
+
+    }
+
+    public static void createImportedFile(File importedFile) throws IOException {
+
+        File file = new File(App.PATH + "notes/" + importedFile.getName().substring(0, importedFile.getName().lastIndexOf('.')) + ".txt");
+        FileUtils.overwriteFile(file, FileUtils.readFileAsStr(importedFile));
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Couldn't create file '" + file.getPath() + "'");
             }
         }
 

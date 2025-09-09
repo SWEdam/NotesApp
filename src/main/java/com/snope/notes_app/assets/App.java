@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snope.notes_app.assets.data_managers.Settings;
 import com.snope.notes_app.assets.windows.main_windows.home.managers.ui.NoteUIManager;
 
+import javax.swing.*;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

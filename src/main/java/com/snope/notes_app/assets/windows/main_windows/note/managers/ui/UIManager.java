@@ -25,6 +25,7 @@ public class UIManager {
         setupHomeButton();
         setupTitle();
         setupUndoRedoButtons();
+        setupExportButton();
 
     }
 
@@ -100,6 +101,18 @@ public class UIManager {
         note.redoButton.setBackground(null);
         note.redoButton.setFont(new Font("aFont", Font.BOLD, 20));
         note.redoButton.setContentAreaFilled(false);
+
+    }
+
+    private void setupExportButton() {
+
+        note.exportButton.setBounds(note.getWidth() - 250, note.undoButton.getY(), 100, 30);
+        note.exportButton.setBorder(new LineBorder(Color.BLUE, 2));
+        note.exportButton.setForeground(Color.BLUE);
+        note.exportButton.setBackground(null);
+        note.exportButton.setFont(new Font("aFont", Font.BOLD, 20));
+        note.exportButton.setMargin(new Insets(10, 10, 10, 10));
+        note.exportButton.setFocusable(false);
 
     }
 

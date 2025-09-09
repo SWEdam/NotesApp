@@ -8,7 +8,6 @@ import com.snope.notes_app.assets.windows.main_windows.home.managers.logic.Event
 import com.snope.notes_app.assets.windows.main_windows.home.managers.logic.NoteManager;
 import com.snope.notes_app.assets.windows.main_windows.home.managers.logic.SortManager;
 import com.snope.notes_app.assets.windows.main_windows.home.managers.ui.LayoutManager;
-import com.snope.notes_app.assets.windows.main_windows.home.managers.ui.NoteUIManager;
 import com.snope.notes_app.assets.windows.main_windows.home.managers.ui.UIManager;
 
 import javax.swing.*;
@@ -35,6 +34,8 @@ public class HomeWindow extends JFrame {
     public JScrollPane scrollPane = new JScrollPane(notePanel, VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER);
     public JComboBox<SortOptions> sortOptionBox;
     public JComboBox<SortOrders> sortOrderBox;
+    public JTextField searchField = new JTextField();
+    public JButton importButton = new JButton("import");
 
     private UIManager uiManager;
     private EventManager eventManager;
@@ -54,9 +55,10 @@ public class HomeWindow extends JFrame {
         uiManager.setupUI();
         eventManager.setupListeners();
 
-        JFrameUtils.addComponentsTo(this, welcomeText, newButtonPanel, scrollPane, sortOptionBox, sortOrderBox);
+        JFrameUtils.addComponentsTo(this, welcomeText, newButtonPanel, scrollPane, sortOptionBox, sortOrderBox, searchField, importButton);
         this.pack();
         this.setVisible(true);
+        this.requestFocusInWindow();
 
     }
 

@@ -5,6 +5,7 @@ import com.snope.notes_app.assets.windows.main_windows.home.HomeWindow;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /*
    Warning: This class is an implementation for the Home class.
@@ -26,6 +27,8 @@ public class UIManager {
         setupNewButton();
         setupScrollPane();
         setupSortButtons();
+        setupSearchField();
+        setupImportButton();
 
     }
 
@@ -91,6 +94,32 @@ public class UIManager {
         home.sortOrderBox.setForeground(Color.GRAY);
         home.sortOrderBox.setBackground(null);
         home.sortOrderBox.setFont(new Font("aFont", Font.BOLD, 15));
+
+    }
+
+    private void setupSearchField() {
+
+        home.searchField.setBounds(home.sortOrderBox.getX() + home.sortOrderBox.getWidth(), home.sortOrderBox.getY(), 400, 35);
+        home.searchField.setBorder(new LineBorder(Color.BLUE, 2));
+        home.searchField.setForeground(Color.WHITE);
+        home.searchField.setBackground(null);
+        home.searchField.setFont(new Font("aFont", Font.BOLD, 15));
+        home.searchField.setMargin(new Insets(10, 10, 10, 10));
+        home.searchField.setCaretColor(Color.LIGHT_GRAY);
+        home.searchField.setSelectedTextColor(Color.LIGHT_GRAY);
+        home.searchField.setSelectionColor(Color.BLUE);
+
+    }
+
+    private void setupImportButton() {
+
+        home.importButton.setBounds(home.getWidth() - home.newButtonPanel.getWidth() - 150, 50, 100, 30);
+        home.importButton.setBorder(new LineBorder(Color.BLUE, 2));
+        home.importButton.setForeground(Color.BLUE);
+        home.importButton.setBackground(null);
+        home.importButton.setFont(new Font("aFont", Font.BOLD, 20));
+        home.importButton.setMargin(new Insets(10, 10, 10, 10));
+        home.importButton.setFocusable(false);
 
     }
 

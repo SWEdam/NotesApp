@@ -4,9 +4,11 @@ import com.snope.notes_app.assets.App;
 import com.snope.notes_app.assets.data_managers.Metadata.NoteMetadata;
 import com.snope.notes_app.assets.data_managers.enums.SortOrders;
 import com.snope.notes_app.assets.objects.Note;
+import com.snope.notes_app.assets.utils.FileUtils;
 import com.snope.notes_app.assets.windows.main_windows.home.HomeWindow;
 import com.snope.notes_app.assets.windows.main_windows.home.managers.ui.NoteUIManager;
 import com.snope.notes_app.assets.windows.main_windows.note.NoteWindow;
+import com.snope.notes_app.assets.windows.main_windows.note.managers.logic.FileManager;
 import com.snope.notes_app.assets.windows.sub_windows.RenamingWindow;
 
 import javax.swing.*;
@@ -31,9 +33,22 @@ public class NoteManager {
 
     public void createNewNote() {
 
-        Note noteButton = registerNewNote();
+        Note noteButton = registerNewNote(null);
 
         switchToNoteTab(true, noteButton);
+
+    }
+
+    public void createImportedNote(File importedFile) {
+
+        if (App.metadataContainer.getNotes().containsKey(importedFile.getName().substring(0, importedFile.getName().lastIndexOf('.')))) {
+            System.out.println("The selected file already exists.");
+            return;
+        }
+
+        Note noteButton = registerNewNote(importedFile);
+
+        switchToNoteTab(false, noteButton);
 
     }
 
@@ -46,14 +61,15 @@ public class NoteManager {
         try {
 
             App.metadataContainer.getNotes().remove(noteButton.getTitle());
+            App.metadataContainer.setCount(App.metadataContainer.getCount() - 1);
             App.mapper.writeValue(App.metadataFile, App.metadataContainer);
+            App.metadataNode = App.mapper.readTree(App.metadataFile);
 
             home.notePanel.remove(noteButton);
             home.notePanel.updateUI();
 
             if (App.metadataContainer.getNotes().isEmpty()) HomeWindow.showWelcomeText();
 
-            updateOrderFileAfterDeletion(noteButton.getTitle());
             deleteNoteFile(noteButton.getTitle());
 
         } catch (IOException e) {
@@ -71,11 +87,26 @@ public class NoteManager {
         new NoteWindow(home, isNew, noteButton);
     }
 
-    private Note registerNewNote() {
+    private Note registerNewNote(File importedFile) {
 
         try {
+
             String date = LocalDateTime.now().format(App.dateTimeFormatter);
-            String title = "Note " + (App.metadataContainer.getCount() + 1);
+            String title;
+
+            if (importedFile == null) {
+
+                // Reinforced to make sure there's no duplicates.
+                int incrementer = 1;
+                do {
+                    title = "Note " + (App.metadataContainer.getCount() + incrementer);
+                    incrementer++;
+                } while(App.metadataContainer.getNotes().containsKey(title));
+
+            } else {
+                title = importedFile.getName().substring(0, importedFile.getName().lastIndexOf('.'));
+                FileManager.createImportedFile(importedFile);
+            }
 
             App.metadataContainer.addNote(title, new NoteMetadata(date));
             App.metadataContainer.setCount(App.metadataContainer.getCount() + 1);
@@ -93,12 +124,6 @@ public class NoteManager {
         } catch (Exception e) {
             throw new RuntimeException("Failed to register new note.");
         }
-
-    }
-
-    private void updateOrderFileAfterDeletion(String noteText) {
-
-
 
     }
 

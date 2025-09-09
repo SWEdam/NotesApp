@@ -16,6 +16,7 @@ import java.util.*;
 public class SortManager {
 
     private static HomeWindow home;
+    private static SearchManager searchManager;
 
     public SortOptions[] sortOptionArray = {
             SortOptions.DATE_MODIFIED,
@@ -29,6 +30,7 @@ public class SortManager {
 
     public SortManager(HomeWindow home) {
         this.home = home;
+        searchManager = new SearchManager(home);
 
         home.sortOptionBox = new JComboBox<>(sortOptionArray);
         home.sortOrderBox = new JComboBox<>(sortOrderArray);
@@ -73,6 +75,8 @@ public class SortManager {
         for (Map.Entry<String, NoteMetadata> entry : entries) {
             App.metadataContainer.addNote(entry);
         }
+
+        searchManager.resetSearch();
 
     }
 

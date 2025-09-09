@@ -8,6 +8,7 @@ import com.snope.notes_app.assets.objects.Note;
 import com.snope.notes_app.assets.utils.JFrameUtils;
 import com.snope.notes_app.assets.utils.VarUtils;
 import com.snope.notes_app.assets.windows.main_windows.home.HomeWindow;
+import com.snope.notes_app.assets.windows.main_windows.home.managers.logic.SearchManager;
 import com.snope.notes_app.assets.windows.main_windows.home.managers.logic.SortManager;
 import com.snope.notes_app.assets.windows.main_windows.note.managers.logic.EventManager;
 import com.snope.notes_app.assets.windows.main_windows.note.managers.logic.FileManager;
@@ -36,12 +37,14 @@ public class NoteWindow extends JFrame {
     public JButton undoButton = new JButton("<");
     public JButton redoButton = new JButton(">");
     public Note noteButton;
+    public JButton exportButton = new JButton("export");
 
     private UIManager uiManager;
     private FileManager fileManager;
     private UndoRedoManager undoRedoManager;
     private ShortcutManager shortcutManager;
     private EventManager eventManager;
+    private SearchManager searchManager;
 
     public File noteFile;
 
@@ -57,12 +60,12 @@ public class NoteWindow extends JFrame {
         undoRedoManager = new UndoRedoManager(this);
         eventManager = new EventManager(this, home);
         shortcutManager = new ShortcutManager(this);
+        searchManager = new SearchManager(home);
 
         if (isNew) {
             fileManager.createNewNoteFile(noteButton);
             title.setText(noteButton.getTitle());
-        }
-        else fileManager.loadNote(noteButton);
+        } else fileManager.loadNote(noteButton);
 
         JFrameUtils.setupFrame(this, "Notes", DEFAULT_WIDTH, DEFAULT_HEIGHT, true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -72,10 +75,11 @@ public class NoteWindow extends JFrame {
         shortcutManager.setupShortcuts();
 
         setupWindowListeners(home);
-        JFrameUtils.addComponentsTo(this, scrollPane, homeButton, title, undoButton, redoButton);
+        JFrameUtils.addComponentsTo(this, scrollPane, homeButton, title, undoButton, redoButton, exportButton);
 
         this.setVisible(true);
         home.setVisible(false);
+        home.requestFocusInWindow();
         textArea.requestFocusInWindow();
 
     }
