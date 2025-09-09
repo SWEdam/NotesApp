@@ -1,5 +1,5 @@
 
-Current Features ✅
+Features ✅
 
 - [x] Basic GUI layout
 - [x] Create simple notes
@@ -12,7 +12,7 @@ Current Features ✅
 - [x] Search feature
 - [x] Import/export files
 
-Changes 👀
+Last Changes 👀
 
 - Implemented basic Search Functionality functionality
 - Refined the Naming System to prevent any internal way of duplication
