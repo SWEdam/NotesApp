@@ -14,7 +14,7 @@ Features ✅
 
 Last Changes 👀
 
-- Implemented basic Search Functionality functionality
+- Implemented basic Search functionality
 - Refined the Naming System to prevent any internal way of duplication
 - Implemented Import/Export feature for .txt and .md extensions
 
